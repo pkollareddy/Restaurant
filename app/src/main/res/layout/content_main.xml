@@ -12,8 +12,29 @@
     tools:context="com.example.praneethkollareddy.restaurant.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <TextView
+    <EditText
+        android:id="@+id/usernamePrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:hint="@string/username_temp" />
+
+    <EditText
+        android:id="@+id/passwordPrompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/pw_temp" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="login"
+        android:text="@string/login_button" />
+
+    <Button
+        android:id="@+id/newAccountButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_account" />
+
 </RelativeLayout>

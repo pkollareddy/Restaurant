@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Restaurant</string>
     <string name="action_settings">Settings</string>
+    <string name="login_button">Login</string>
+    <string name="create_account">Add a new restaurant</string>
+    <string name="login_prompt">Login to manage your restaurant</string>
+    <string name="username_temp">Username</string>
+    <string name="pw_temp">Password</string>
+
 </resources>
