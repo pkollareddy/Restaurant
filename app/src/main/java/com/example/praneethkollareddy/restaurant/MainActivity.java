@@ -1,13 +1,22 @@
 package com.example.praneethkollareddy.restaurant;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+
+import java.util.Map;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,13 +26,38 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Firebase.setAndroidContext(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        Button newAccount = (Button) findViewById(R.id.newAccountButton);
+        newAccount.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                EditText usernameInput = (EditText) findViewById(R.id.usernamePrompt);
+                String username = usernameInput.getText().toString();
+                EditText passwordInput = (EditText) findViewById(R.id.passwordPrompt);
+                String password = passwordInput.getText().toString();
+                if (username.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Please enter valid credentials.", Toast.LENGTH_SHORT).show();
+                } else {
+                    createNewAccount(username, password);
+                }
+            }
+        });
+
+        Button loginButton = (Button) findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText usernameInput = (EditText) findViewById(R.id.usernamePrompt);
+                String username = usernameInput.getText().toString();
+                EditText passwordInput = (EditText) findViewById(R.id.passwordPrompt);
+                String password = passwordInput.getText().toString();
+                if (username.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Please enter valid credentials.", Toast.LENGTH_SHORT).show();
+                } else {
+                    loginUser(username, password);
+                }
             }
         });
     }
@@ -48,5 +82,45 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void createNewAccount(String username, String password) {
+        Firebase ref = new Firebase("https://resplendent-heat-2353.firebaseio.com");
+        System.out.println("in create");
+        ref.createUser(username, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
+            @Override
+            public void onSuccess(Map<String, Object> result) {
+                System.out.println("Successfully created user account with uid: " + result.get("uid"));
+                Toast.makeText(getApplicationContext(), "Account created. Please login.", Toast.LENGTH_SHORT).show();
+                EditText usernameInput = (EditText) findViewById(R.id.usernamePrompt);
+                usernameInput.setText("");
+                EditText passwordInput = (EditText) findViewById(R.id.passwordPrompt);
+                passwordInput.setText("");
+            }
+
+            @Override
+            public void onError(FirebaseError firebaseError) {
+                System.out.println(firebaseError.getDetails());
+            }
+        });
+    }
+
+    private void loginUser(String username, String password) {
+        Firebase ref = new Firebase("https://resplendent-heat-2353.firebaseio.com");
+        System.out.println("in login");
+        ref.authWithPassword(username, password, new Firebase.AuthResultHandler() {
+            @Override
+            public void onAuthenticated(AuthData authData) {
+                System.out.println("User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
+                Intent intent = new Intent(MainActivity.this, AddRestaurant.class);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onAuthenticationError(FirebaseError firebaseError) {
+                System.out.println(firebaseError.getDetails());
+            }
+        });
     }
 }

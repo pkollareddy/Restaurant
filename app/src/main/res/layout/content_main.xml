@@ -16,18 +16,28 @@
         android:id="@+id/usernamePrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:ems="20"
         android:hint="@string/username_temp" />
 
     <EditText
         android:id="@+id/passwordPrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/pw_temp" />
+        android:layout_below="@+id/usernamePrompt"
+        android:layout_centerHorizontal="true"
+        android:ems="20"
+        android:hint="@string/pw_temp"
+        android:inputType="none" />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/newAccountButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
         android:onClick="login"
         android:text="@string/login_button" />
 
@@ -35,6 +45,8 @@
         android:id="@+id/newAccountButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:text="@string/create_account" />
 
 </RelativeLayout>

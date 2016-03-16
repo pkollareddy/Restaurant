@@ -4,7 +4,8 @@
     <string name="login_button">Login</string>
     <string name="create_account">Add a new restaurant</string>
     <string name="login_prompt">Login to manage your restaurant</string>
-    <string name="username_temp">Username</string>
+    <string name="username_temp">Email Address</string>
     <string name="pw_temp">Password</string>
+    <string name="title_activity_add_restaurant">AddRestaurant</string>
 
 </resources>
